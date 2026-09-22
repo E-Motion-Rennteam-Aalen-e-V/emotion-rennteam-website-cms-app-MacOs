@@ -5,6 +5,7 @@ import Reveal from "@/components/motion/Reveal";
 import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
 import SponsorForm from "@/components/SponsorForm";
 import SponsorCard from "@/components/SponsorCard";
+import SponsorTierTable from "@/components/SponsorTierTable";
 
 export const metadata: Metadata = {
   title: "Sponsoren",
@@ -39,6 +40,14 @@ export default function SponsorsPage() {
               className="object-cover"
             />
           </div>
+        </div>
+      </Reveal>
+
+      <Reveal id="pakete" className="mt-16 scroll-mt-24" delay={0.05}>
+        <h2 className="text-2xl font-bold">Sponsoring-Pakete im Überblick</h2>
+        <p className="mt-2 text-muted">Was bieten wir unseren Partnern? Ein direkter Vergleich aller Stufen.</p>
+        <div className="mt-6 overflow-hidden rounded-xl border border-border">
+          <SponsorTierTable />
         </div>
       </Reveal>
 
