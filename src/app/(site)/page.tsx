@@ -7,6 +7,7 @@ import Reveal from "@/components/motion/Reveal";
 import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
 import Counter from "@/components/motion/Counter";
 import ScrollScale from "@/components/motion/ScrollScale";
+import EventCountdown from "@/components/motion/EventCountdown";
 
 const DEFAULT_STATS = [
   { value: 50, suffix: "+", label: "Studierende im Team" },
@@ -108,6 +109,15 @@ export default function Home() {
             ))}
           </StaggerGroup>
         </div>
+      </section>
+
+      <section className="container-page py-8">
+        <Reveal>
+          <EventCountdown
+            eventName="Formula Student Germany 2027"
+            eventDate={new Date("2027-07-28T08:00:00")}
+          />
+        </Reveal>
       </section>
 
       {bodyParagraphs.length > 0 && (
