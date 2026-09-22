@@ -22,7 +22,9 @@ export default function SponsorTierTable() {
       <table className="w-full min-w-[640px] border-collapse text-sm">
         <thead>
           <tr>
-            <th className="w-44 px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted" />
+            <th className="w-44 px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted">
+              <span className="sr-only">Leistung</span>
+            </th>
             {TIERS.map((tier) => (
               <th
                 key={tier.name}
