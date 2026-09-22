@@ -87,7 +87,7 @@ Nachher: content/gallery/foto.md
 Wenn du ein **Bild** umbenennst oder verschiebt, musst du auch alle Stellen aktualisieren, wo es referenziert wird!
 
 **Suche nach altem Pfad:**
-1. GitHub-Suche → `repo:Hudnur111/... /uploads/alter-pfad.jpg`
+1. GitHub-Suche → `repo:E-Motion-Rennteam-Aalen-e-V/... /uploads/alter-pfad.jpg`
 2. Alle gefundenen Dateien anpassen
 
 **Beispiel:**

@@ -36,7 +36,7 @@ GitHub unterscheidet verschiedene Rollen mit unterschiedlichen Rechten:
 ```
 ┌─────────────────────────────────────────────────────────┐
 │  Add collaborator to                                    │
-│  Website---E-Motion-Rennteam-Aalen-                     │
+│  emotion-rennteam-website                     │
 │                                                         │
 │  🔍 Search by username, full name or email              │
 │                                                         │

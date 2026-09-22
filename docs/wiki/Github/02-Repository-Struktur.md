@@ -5,7 +5,7 @@
 Unser Repository enthält alle Dateien der Website. Hier ist die vollständige Struktur mit Erklärungen:
 
 ```
-Website---E-Motion-Rennteam-Aalen-/
+emotion-rennteam-website/
 │
 ├── 📁 content/                  ← CMS-Inhalte (Texte, Metadaten)
 │   ├── 📁 blog/                 ← Blog-Beiträge als .md-Dateien

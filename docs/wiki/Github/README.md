@@ -94,7 +94,7 @@ Professionelle GitHub-Anleitungen für alle Teammitglieder – kein IT-Wissen er
 
 ## Unser Repository
 
-🔗 `https://github.com/Hudnur111/Website---E-Motion-Rennteam-Aalen-`
+🔗 `https://github.com/E-Motion-Rennteam-Aalen-e-V/emotion-rennteam-website`
 
 **Live-Branch:** `website` → was Besucher auf der Website sehen
 

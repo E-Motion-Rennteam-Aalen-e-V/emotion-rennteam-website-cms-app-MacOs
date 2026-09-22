@@ -31,7 +31,7 @@ GitHub = Google Drive + Zeitmaschine + Teamarbeit
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  Hudnur111 / Website---E-Motion-Rennteam-Aalen-         │
+│  E-Motion-Rennteam-Aalen-e-V / emotion-rennteam-website         │
 ├─────────────────────────────────────────────────────────┤
 │  < > Code   Issues   Pull requests   Actions   ...      │
 ├─────────────────────────────────────────────────────────┤

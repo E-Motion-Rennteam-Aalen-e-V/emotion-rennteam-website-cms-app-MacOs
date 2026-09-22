@@ -30,7 +30,7 @@ website (live) ─────────────────────�
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  Hudnur111 / Website---E-Motion-Rennteam-Aalen-         │
+│  E-Motion-Rennteam-Aalen-e-V / emotion-rennteam-website         │
 │                                                         │
 │  [⎇ website ▼]  ← Hier klicken                         │
 │  ┌─────────────────────────────────────────────────┐   │

@@ -50,7 +50,7 @@ sponsor
 ### Erweiterte Suche mit Filtern:
 
 ```
-repo:Hudnur111/Website---E-Motion-Rennteam-Aalen- anna
+repo:E-Motion-Rennteam-Aalen-e-V/emotion-rennteam-website anna
 
 in:file rollout
 
@@ -65,7 +65,7 @@ Um in Dateiinhalten zu suchen:
 
 1. Globale Suche oben
 2. Wechsle zum Tab **"Code"**
-3. Oder nutze: `repo:Hudnur111/... suchbegriff in:file`
+3. Oder nutze: `repo:E-Motion-Rennteam-Aalen-e-V/... suchbegriff in:file`
 
 **Beispiele:**
 
@@ -123,7 +123,7 @@ type:commit author:anna     → Alle Commits von Anna
 Statt durch viele Ordner zu klicken – nutze den Dateipfad oben:
 
 ```
-Hudnur111 / Website---E-Motion-Rennteam-Aalen- / content / team /
+E-Motion-Rennteam-Aalen-e-V / emotion-rennteam-website / content / team /
               ↑              ↑                     ↑         ↑
            Klickbar!      Klickbar!             Klickbar! Klickbar!
 ```

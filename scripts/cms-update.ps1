@@ -23,7 +23,7 @@ function Test-Command($name) {
 $GitTimeoutArgs = @("-c", "http.lowSpeedLimit=1000", "-c", "http.lowSpeedTime=15")
 
 # Inhalte, die ueber das CMS gespeichert werden, landen als Commit auf dem in
-# .env.local konfigurierten GITHUB_BRANCH (Standard: main) - nicht
+# .env.local konfigurierten GITHUB_BRANCH (Standard: website) - nicht
 # zwingend auf dem Branch, von dem diese CMS-Installation selbst laeuft
 # (typischerweise cms-app, ein separates Deployment). Ohne diesen Abgleich
 # zeigt die lokale content/-Kopie dieser Installation zunehmend veraltete
@@ -85,8 +85,8 @@ function Sync-Content([string]$repoRoot) {
     Write-Host ""
 }
 
-$RepoUrl = "https://github.com/Hudnur111/Website---E-Motion-Rennteam-Aalen-.git"
-$RepoName = "Website---E-Motion-Rennteam-Aalen-"
+$RepoUrl = "https://github.com/E-Motion-Rennteam-Aalen-e-V/emotion-rennteam-website-cms-app-MacOs.git"
+$RepoName = "emotion-rennteam-website-cms-app-MacOs"
 
 if (-not (Test-Command "git")) {
     exit 0
@@ -126,7 +126,7 @@ if ($LASTEXITCODE -ne 0) {
             if ($symref) {
                 $branch = $symref.Matches[0].Groups[1].Value
             } else {
-                $branch = "website"
+                $branch = "main"
             }
         }
 

@@ -18,7 +18,7 @@
 
 Gehe auf GitHub zu:
 ```
-https://github.com/Hudnur111/Website---E-Motion-Rennteam-Aalen-
+https://github.com/E-Motion-Rennteam-Aalen-e-V/emotion-rennteam-website
 ```
 
 ### 2. Branch wechseln (falls nötig)

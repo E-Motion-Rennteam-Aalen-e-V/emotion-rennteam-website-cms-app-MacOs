@@ -121,8 +121,8 @@ function Test-GithubToken([string]$token, [string]$owner, [string]$repo) {
     }
 }
 
-$githubOwner = "Hudnur111"
-$githubRepo = "Website---E-Motion-Rennteam-Aalen-"
+$githubOwner = "E-Motion-Rennteam-Aalen-e-V"
+$githubRepo = "emotion-rennteam-website"
 $githubBranch = "website"
 $githubToken = ""
 

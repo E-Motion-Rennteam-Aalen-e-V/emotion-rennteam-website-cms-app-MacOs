@@ -49,7 +49,7 @@
 │  ┌──────────────────────────────────────────┐│
 │  │  Clone                                   ││
 │  │  HTTPS  SSH  GitHub CLI                  ││
-│  │  https://github.com/Hudnur111/...        ││
+│  │  https://github.com/E-Motion-Rennteam-Aalen-e-V/...        ││
 │  │                                          ││
 │  │  [Open with GitHub Desktop]              ││
 │  │  [Download ZIP]  ← Hier klicken!         ││

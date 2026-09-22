@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 // Startet den Next.js-Server als Kindprozess. Kein Update-Check beim Start -
-// der Server ist sofort da. Erst wenn sich jemand einloggt und im
-// Admin-Panel landet, legt UpdateBanner.tsx (per
-// /api/admin/trigger-update-check) die Trigger-Datei ".cms-update-trigger"
-// an; dieses Skript pollt kurz darauf, findet sie, prueft dann im
-// Hintergrund einmalig auf GitHub-Updates und haelt danach die periodische
-// 5-Minuten-Pruefung am Laufen, solange die App laeuft - ohne den Start
-// selbst je zu verzoegern oder die Redaktion beim Arbeiten zu stoeren.
+// der Server ist sofort da. Rund eine Minute spaeter (AUTOSTART_DELAY_MS
+// unten) beginnt dieses Skript von ganz allein im Hintergrund periodisch
+// (alle 5 Minuten) auf GitHub-Updates zu pruefen, ganz ohne Zutun - es muss
+// sich dafuer niemand einloggen. Zusaetzlich legt UpdateBanner.tsx, sobald
+// sich jemand einloggt und im Admin-Panel ankommt, per
+// /api/admin/trigger-update-check die Trigger-Datei ".cms-update-trigger" an;
+// dieses Skript pollt kurz darauf, findet sie und stoesst dadurch sofort
+// einen zusaetzlichen Check an, statt auf die naechste automatische Runde zu
+// warten - ohne den Start selbst je zu verzoegern oder die Redaktion beim
+// Arbeiten zu stoeren.
 //
 // Wird ein Update gefunden, wendet dieses Skript es an (per
 // scripts/cms-update.sh bzw. .ps1 - dieselbe, bereits beim Start verwendete
@@ -40,6 +43,10 @@ const isWin = process.platform === "win32";
 
 const CHECK_INTERVAL_MS = 5 * 60 * 1000;
 const TRIGGER_POLL_MS = 3000;
+// Absichtlich nicht 0: die erste Minute nach dem Start soll ganz dem
+// Kompilieren/Vorwaermen (preWarmRoutes) gehoeren, damit ein Update-Check nie
+// mit dem ersten echten Seitenaufruf um CPU/IO konkurriert.
+const AUTOSTART_DELAY_MS = 60 * 1000;
 
 const portIndex = process.argv.indexOf("-p");
 const port = portIndex !== -1 ? process.argv[portIndex + 1] : "3000";
@@ -219,29 +226,36 @@ function startBackgroundChecks() {
   }, CHECK_INTERVAL_MS);
 }
 
-// Wartet, bis jemand eingeloggt im Admin-Panel ankommt (UpdateBanner.tsx
-// legt dann ueber /api/admin/trigger-update-check diese Datei an), statt
-// selbst sofort beim Start zu pruefen - so wird der Start-Vorgang nie durch
-// einen Update-Check verzoegert oder gestoert.
+// Ein Login im Admin-Panel (UpdateBanner.tsx legt dann ueber
+// /api/admin/trigger-update-check diese Datei an) stoesst einen sofortigen
+// Check an, statt auf die naechste automatische Runde zu warten. Faellt
+// dieser Trigger aus (niemand loggt sich ein), starten die Checks trotzdem
+// von ganz allein - siehe setTimeout(startBackgroundChecks, ...) unten.
 try {
   if (existsSync(triggerFile)) unlinkSync(triggerFile);
 } catch {
   // Kein Problem, wird beim naechsten Poll erneut versucht.
 }
 setInterval(() => {
-  if (backgroundChecksStarted) return;
   if (!existsSync(triggerFile)) return;
   try {
     unlinkSync(triggerFile);
   } catch {
-    // Datei ggf. schon weg - trotzdem Checks starten.
+    // Datei ggf. schon weg - trotzdem Check ausloesen.
   }
-  startBackgroundChecks();
+  if (backgroundChecksStarted) {
+    checkForUpdate().catch(() => writeStatus("up-to-date"));
+  } else {
+    startBackgroundChecks();
+  }
 }, TRIGGER_POLL_MS);
 
 writeStatus("up-to-date");
 startServer();
 preWarmRoutes().catch(() => {});
+// Vollautomatisch: die periodische Update-Pruefung beginnt von selbst, ohne
+// dass sich jemand einloggen oder irgendetwas anstossen muss.
+setTimeout(startBackgroundChecks, AUTOSTART_DELAY_MS);
 
 function shutdown(signal) {
   shuttingDown = true;

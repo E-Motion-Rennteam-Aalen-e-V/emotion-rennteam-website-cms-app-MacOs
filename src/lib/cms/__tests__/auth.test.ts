@@ -9,13 +9,15 @@ describe("CMS session tokens", () => {
   it("round-trips a valid token", async () => {
     const token = await createSessionToken("admin");
     const session = await verifySessionToken(token);
-    expect(session).toEqual({ username: "admin", mustChangePassword: false });
+    expect(session).toMatchObject({ username: "admin", mustChangePassword: false });
+    expect(session?.iat).toEqual(expect.any(Number));
   });
 
   it("round-trips a token that requires a password change", async () => {
     const token = await createSessionToken("linda", true);
     const session = await verifySessionToken(token);
-    expect(session).toEqual({ username: "linda", mustChangePassword: true });
+    expect(session).toMatchObject({ username: "linda", mustChangePassword: true });
+    expect(session?.iat).toEqual(expect.any(Number));
   });
 
   it("rejects a tampered signature", async () => {

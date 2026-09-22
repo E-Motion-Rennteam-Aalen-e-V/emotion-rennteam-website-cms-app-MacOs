@@ -21,11 +21,11 @@ const SEEN_UPDATE_KEY = "cms-last-seen-update";
 export default function UpdateBanner() {
   const [status, setStatus] = useState<StatusResponse | null>(null);
 
-  // Der Supervisor prueft absichtlich nicht schon beim Server-Start auf
-  // Updates - das wuerde den Start verzoegern, bevor ueberhaupt jemand da
-  // ist. Stattdessen stoesst genau dieser Aufruf hier den ersten (und
-  // danach periodischen) Hintergrund-Check erst an, sobald tatsaechlich
-  // jemand eingeloggt im Panel ankommt.
+  // Der Supervisor prueft ohnehin von selbst periodisch im Hintergrund (rund
+  // eine Minute nach dem Start, siehe scripts/cms-supervisor.mjs). Dieser
+  // Aufruf hier ist nur eine Abkuerzung: er loest einen sofortigen Check aus,
+  // sobald jemand eingeloggt im Panel ankommt, statt auf die naechste
+  // automatische Runde zu warten.
   useEffect(() => {
     fetch("/api/admin/trigger-update-check", { method: "POST" }).catch(() => {
       // Kein laufender Supervisor oder Netzwerkproblem - dann bleibt es
