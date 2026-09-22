@@ -40,6 +40,7 @@ export default function GlobalError({ reset }: { reset: () => void }) {
           >
             Erneut versuchen
           </button>
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- global-error renders outside the app router (root layout itself crashed), so next/link's router context isn't available here. */}
           <a
             href="/"
             style={{

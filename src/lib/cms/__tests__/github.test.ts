@@ -127,11 +127,16 @@ describe("commitFile / commitBinaryFile / deleteFile", () => {
   });
 
   it("throws with response status and body when the PUT commit fails", async () => {
+    // A 422 is treated as a stale-sha race and retried once (re-fetch sha,
+    // retry the PUT) - so a persistent failure needs both attempts mocked.
     fetchMock
       .mockResolvedValueOnce(new Response("not found", { status: 404 }))
+      .mockResolvedValueOnce(new Response("bad request details", { status: 422 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ sha: "retry-sha" }), { status: 200 }))
       .mockResolvedValueOnce(new Response("bad request details", { status: 422 }));
 
     await expect(commitFile("content/team/foo.md", "hello", "msg", "Editor")).rejects.toThrow(/422/);
+    expect(fetchMock).toHaveBeenCalledTimes(4);
   });
 
   it("commitBinaryFile base64-encodes raw bytes as-is", async () => {
