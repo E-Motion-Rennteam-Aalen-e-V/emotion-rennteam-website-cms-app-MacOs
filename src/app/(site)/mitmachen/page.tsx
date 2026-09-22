@@ -5,6 +5,16 @@ import Reveal from "@/components/motion/Reveal";
 import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
 import MemberApplicationForm from "@/components/MemberApplicationForm";
 import AlumniShowcase from "@/components/AlumniShowcase";
+import FaqAccordion from "@/components/FaqAccordion";
+
+const FAQ_ITEMS = [
+  { question: "Welche Studiengänge passen zum Team?", answer: "Alle Studiengänge der Hochschule Aalen sind willkommen — von Maschinenbau und Elektrotechnik über Informatik bis hin zu BWL und Mediendesign. Unser Team braucht technische und kaufmännische Kompetenz gleichermaßen." },
+  { question: "Wie viel Zeit muss ich einplanen?", answer: "Realistisch 5–10 Stunden pro Woche je nach Projektphase. Vor Wettbewerben (März–Juli) steigt der Aufwand. Wir planen gemeinsam, damit das Studium nicht leidet." },
+  { question: "Brauche ich Vorerfahrung?", answer: "Nein — wichtiger als Vorwissen ist Motivation. Du lernst alles Notwendige direkt im Projekt. Viele unserer erfolgreichsten Mitglieder hatten beim Einstieg null Erfahrung in ihrem Fachbereich." },
+  { question: "Wann kann ich einsteigen?", answer: "Jederzeit! Wir haben keinen festen Aufnahmezyklus. Füll einfach das Formular aus, wir melden uns innerhalb weniger Tage und laden dich zu einem persönlichen Kennenlerngespräch ein." },
+  { question: "Was passiert nach dem Bewerbungsformular?", answer: "Wir laden dich zu einem kurzen Kennenlerngespräch (ca. 30 Min.) mit Mitgliedern deines Wunsch-Fachbereichs ein. Danach kannst du direkt bei echten Aufgaben mitmachen — keine Probezeit." },
+  { question: "Kann ich mehrere Fachbereiche kennenlernen?", answer: "Ja. Beim Einstieg schauen wir gemeinsam, wo deine Stärken und Interessen am besten passen. Fachbereichswechsel innerhalb des Teams sind möglich und kommen regelmäßig vor." },
+];
 
 export const metadata: Metadata = {
   title: "Mitmachen",
@@ -118,6 +128,13 @@ export default function JoinPage() {
       </Reveal>
 
       <AlumniShowcase />
+
+      <Reveal delay={0.09} className="mt-20">
+        <h2 className="border-b border-border pb-3 text-xl font-bold">Häufige Fragen</h2>
+        <div className="mt-6">
+          <FaqAccordion items={FAQ_ITEMS} />
+        </div>
+      </Reveal>
 
       <Reveal id="bewerbung" delay={0.1} className="mt-20 scroll-mt-24 rounded-2xl border border-accent/40 bg-surface p-8 sm:p-10">
         <div className="text-center">
