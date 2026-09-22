@@ -122,4 +122,4 @@ Bei Fragen oder Problemen, die dieses Wiki nicht beantwortet:
 
 - **Admin:** Denny Svalin
 - **Technische Probleme:** An einen Entwickler wenden
-- **GitHub Issues:** https://github.com/Hudnur111/Website---E-Motion-Rennteam-Aalen-/issues
+- **GitHub Issues:** https://github.com/E-Motion-Rennteam-Aalen-e-V/emotion-rennteam-website/issues

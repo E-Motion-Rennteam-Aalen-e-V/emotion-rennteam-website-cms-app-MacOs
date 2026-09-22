@@ -25,7 +25,7 @@ Wenn du Änderungen auf GitHub machst, sehen andere Teammitglieder und (bei öff
 │  Name:         Anna Müller           ← Echter Name      │
 │  Username:     anna-mueller-hs       ← Login-Name       │
 │  Bio:          Aerodynamik @ E-Motion Rennteam Aalen    │
-│  Company:      @Hudnur111             ← Team-Account    │
+│  Company:      @E-Motion-Rennteam-Aalen-e-V             ← Team-Account    │
 │  Location:     Aalen, Baden-Württemberg                 │
 │  Email:        (public oder privat)                     │
 │  LinkedIn:     linkedin.com/in/anna-mueller             │
@@ -40,7 +40,7 @@ Wenn du Änderungen auf GitHub machst, sehen andere Teammitglieder und (bei öff
 |------|-----------|
 | **Name** | Vor- und Nachname (echter Name) |
 | **Bio** | "Aerodynamik @ E-Motion Rennteam Aalen" |
-| **Company** | `@Hudnur111` (unser GitHub-Account) |
+| **Company** | `@E-Motion-Rennteam-Aalen-e-V` (unser GitHub-Account) |
 | **Location** | Aalen, Deutschland |
 | **Website** | Dein LinkedIn-Profil |
 

@@ -49,7 +49,7 @@ GitHub Desktop = GitHub im Browser + lokale Dateiverwaltung
 ### Schritt 3: Repository klonen
 
 1. **File → Clone Repository**
-2. Suche nach: `Website---E-Motion-Rennteam-Aalen-`
+2. Suche nach: `emotion-rennteam-website`
 3. Wähle einen lokalen Ordner (z.B. `Dokumente/E-Motion-Website`)
 4. Klicke **"Clone"**
 

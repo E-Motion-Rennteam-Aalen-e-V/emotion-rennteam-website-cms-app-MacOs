@@ -37,7 +37,7 @@ Sofort nach der Registrierung:
 2. Ausfüllen:
    - **Name:** Echter Name (z.B. Anna Müller)
    - **Bio:** "Aerodynamik @ E-Motion Rennteam Aalen"
-   - **Company:** `@Hudnur111`
+   - **Company:** `@E-Motion-Rennteam-Aalen-e-V`
    - **Location:** Aalen
 3. Profilfoto hochladen
 
@@ -56,7 +56,7 @@ Sofort nach der Registrierung:
 
 ## Schritt 5: Repository kennenlernen
 
-1. Gehe zu: `https://github.com/Hudnur111/Website---E-Motion-Rennteam-Aalen-`
+1. Gehe zu: `https://github.com/E-Motion-Rennteam-Aalen-e-V/emotion-rennteam-website`
 2. Branch auf `website` einstellen
 3. Ordnerstruktur erkunden:
 
