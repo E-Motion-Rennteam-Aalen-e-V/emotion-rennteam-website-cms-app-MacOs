@@ -55,12 +55,30 @@ export default function UpdateBanner() {
     setRestarting(true);
     try {
       await fetch("/api/admin/trigger-restart", { method: "POST" });
-      // Kurz warten, dann Seite neu laden - der Server startet gerade neu.
-      await new Promise((r) => setTimeout(r, 3000));
-      window.location.reload();
     } catch {
       setRestarting(false);
+      return;
     }
+    // Warte bis der Server wieder antwortet (max. 90s) - Next.js Dev-Server
+    // braucht nach SIGTERM + Neustart typisch 15-30s bis er HTTP serviert.
+    // Ein fixer Timeout wuerde die Seite laden, bevor der Server bereit ist.
+    for (let i = 0; i < 90; i++) {
+      await new Promise((r) => setTimeout(r, 1000));
+      try {
+        const res = await fetch("/api/admin/update-status", {
+          cache: "no-store",
+          signal: AbortSignal.timeout(2000),
+        });
+        if (res.ok) {
+          window.location.reload();
+          return;
+        }
+      } catch {
+        // Server noch nicht bereit - weiter warten.
+      }
+    }
+    // Timeout abgelaufen, trotzdem versuchen.
+    window.location.reload();
   }
 
   if (!status) return null;

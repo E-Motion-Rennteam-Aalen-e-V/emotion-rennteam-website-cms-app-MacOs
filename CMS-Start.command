@@ -4,6 +4,11 @@
 
 cd "$(dirname "$0")"
 
+# Quarantine-Attribut einmalig vom gesamten Projektordner entfernen
+# (damit E-Motion CMS.app danach per Doppelklick ohne "App ist beschaedigt"-
+# Fehler startet). Schlaegt lautlos fehl falls xattr nicht vorhanden.
+xattr -dr com.apple.quarantine "$(cd "$(dirname "$0")" && pwd)" 2>/dev/null || true
+
 script_dir_abs="$(cd "$(dirname "$0")" && pwd -P)"
 if echo "$script_dir_abs" | grep -q "AppTranslocation"; then
     echo "============================================"
@@ -40,11 +45,14 @@ echo ""
 
 if ! command -v node >/dev/null 2>&1; then
     echo "[FEHLER] Node.js wurde nicht gefunden."
-    echo "Bitte installiere Node.js von https://nodejs.org/ (LTS-Version)"
-    echo "und starte dieses Fenster danach neu."
     echo ""
-    echo "Tipp: Falls Node.js ueber nvm oder Homebrew installiert ist,"
-    echo "bitte einmalig das Terminal oeffnen und 'node --version' pruefen."
+    echo "Node.js wird benoetigt und ist auf diesem Mac noch nicht installiert."
+    echo "Die Download-Seite wird jetzt automatisch geoeffnet:"
+    echo "  https://nodejs.org/  (bitte die LTS-Version installieren)"
+    echo ""
+    open "https://nodejs.org/" 2>/dev/null || true
+    echo "Nach der Installation dieses Fenster schliessen und"
+    echo "das CMS erneut per Doppelklick starten."
     echo ""
     read -r -p "Zum Beenden Enter druecken..." _
     exit 1

@@ -133,15 +133,18 @@ Projekteinstellungen des Hosting-Anbieters):
    `~/Downloads` auf den **Schreibtisch** oder nach `~/Programme` verschieben
    (nicht direkt aus Downloads starten — macOS blockiert das).
 
-2. **App starten** — Doppelklick auf **`E-Motion CMS.app`**.
+2. **App starten** — Doppelklick auf **`CMS-Start_macos.command`**
+   (beim ersten Mal: Rechtsklick → „Öffnen" → im Dialog „Öffnen" klicken —
+   einmalige macOS-Sicherheitsnachfrage für Dateien aus dem Internet).
 
    Das wars. Die App erkennt automatisch, was fehlt:
    - **Node.js fehlt?** → Browser öffnet sich automatisch auf nodejs.org
      (LTS installieren, dann App erneut starten).
-   - **Erste Einrichtung** → Ein Terminal-Fenster fragt einmalig nach
+   - **Erste Einrichtung** → Terminal-Fenster fragt einmalig nach
      Benutzername und Passwort.
-   - **„App ist beschädigt"-Fehler?** → Wird ab dieser Version **automatisch**
-     behoben; der Fehler sollte nicht mehr auftreten.
+   - Nach dem ersten Start per `CMS-Start_macos.command` lässt sich auch
+     **`E-Motion CMS.app`** per Doppelklick öffnen (der erste Start entfernt
+     die macOS-Quarantine, die sonst „App ist beschädigt" zeigen würde).
 
 3. **Updates** — Laufen vollständig automatisch im Hintergrund. Nach einem
    Update erscheint im Admin-Panel oben ein grüner Hinweis mit dem Button

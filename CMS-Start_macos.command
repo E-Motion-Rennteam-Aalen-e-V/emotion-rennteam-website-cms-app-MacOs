@@ -5,6 +5,14 @@
 
 cd "$(dirname "$0")"
 
+# Quarantine-Attribut einmalig vom gesamten Projektordner entfernen.
+# Dadurch laesst sich E-Motion CMS.app danach per Doppelklick starten,
+# ohne dass macOS den Fehler "App ist beschaedigt" zeigt - da das .app-
+# Bundle selbst durch die Quarantine blockiert wird und sich nicht selbst
+# heilen kann, ist dieser .command-Startpfad (einmalig Rechtsklick ->
+# Oeffnen oder Doppelklick) der einzige Ort, wo das sicher geht.
+xattr -dr com.apple.quarantine "$(cd "$(dirname "$0")" && pwd)" 2>/dev/null || true
+
 # App-Translocation-Erkennung (#262): macOS verschiebt Apps aus dem
 # Downloads-Ordner oder nicht signierten DMGs in einen versteckten
 # /private/var/folders/.../AppTranslocation-Pfad. Der Ordner ist
