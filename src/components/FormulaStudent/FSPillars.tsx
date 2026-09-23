@@ -6,16 +6,16 @@ const pillars = [
   {
     icon: "⚙️",
     title: "Konstruktion",
-    items: ["Chassis Design", "Elektrik/Elektronik", "Aerodynamik"],
+    items: ["Chassis-Design", "Elektrik/Elektronik", "Aerodynamik"],
   },
   {
     icon: "💰",
     title: "Betriebswirtschaft",
-    items: ["Cost Controlling", "Business Plan", "Budgetierung"],
+    items: ["Kostencontrolling", "Geschäftsplan", "Budgetierung"],
   },
   {
     icon: "🚀",
-    title: "Projekt Management",
+    title: "Projektmanagement",
     items: ["Planung", "Organisation", "Zeitmanagement"],
   },
   {
