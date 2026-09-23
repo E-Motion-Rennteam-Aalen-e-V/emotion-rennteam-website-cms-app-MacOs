@@ -23,7 +23,7 @@ const events = [
   },
   {
     year: 2024,
-    title: "Global Presence",
+    title: "Globale Präsenz",
     description: "500+ Teams aus über 50 Ländern weltweit aktiv",
     highlight: false,
   },
