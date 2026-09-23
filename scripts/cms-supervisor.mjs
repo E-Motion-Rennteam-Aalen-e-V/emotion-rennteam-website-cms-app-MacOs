@@ -39,6 +39,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, "..");
 const statusFile = path.join(repoRoot, ".cms-update-status.json");
 const triggerFile = path.join(repoRoot, ".cms-update-trigger");
+const restartTriggerFile = path.join(repoRoot, ".cms-restart-trigger");
 const isWin = process.platform === "win32";
 
 const CHECK_INTERVAL_MS = 5 * 60 * 1000;
@@ -157,7 +158,9 @@ function startServer() {
     detached: !isWin,
   });
   child.on("exit", (code) => {
-    if (!shuttingDown) process.exit(code ?? 0);
+    // child===null bedeutet, ein Neustart wurde ausgeloest (oben auf null gesetzt
+    // bevor SIGTERM gesendet wurde) - dann NICHT beenden, startServer() folgt.
+    if (!shuttingDown && child !== null) process.exit(code ?? 0);
   });
 }
 
@@ -248,6 +251,34 @@ setInterval(() => {
   } else {
     startBackgroundChecks();
   }
+}, TRIGGER_POLL_MS);
+
+// Restart-Trigger: legt /api/admin/trigger-restart (per UpdateBanner.tsx)
+// die Datei ".cms-restart-trigger" an, beendet der Supervisor den laufenden
+// Next.js-Kindprozess graceful und startet ihn neu. Der Browser merkt den
+// kurzen Neustart dank der bestehenden Loading-Page kaum.
+try {
+  if (existsSync(restartTriggerFile)) unlinkSync(restartTriggerFile);
+} catch {
+  // ignore
+}
+setInterval(() => {
+  if (!existsSync(restartTriggerFile)) return;
+  try { unlinkSync(restartTriggerFile); } catch { /* ggf. schon weg */ }
+  if (!child || shuttingDown) return;
+  process.stderr.write("[cms-supervisor] Neustart angefordert - Server wird neu gestartet...\n");
+  writeStatus("restarting");
+  const dying = child;
+  child = null;
+  if (isWin) {
+    spawnSync("taskkill", ["/pid", String(dying.pid), "/T", "/F"]);
+  } else {
+    try { process.kill(-dying.pid, "SIGTERM"); } catch { try { dying.kill("SIGTERM"); } catch { /* bereits beendet */ } }
+  }
+  // Nach kurzem Timeout neu starten, damit der Port wieder frei ist.
+  setTimeout(() => {
+    if (!shuttingDown) startServer();
+  }, 2000);
 }, TRIGGER_POLL_MS);
 
 writeStatus("up-to-date");

@@ -47,11 +47,14 @@ echo ""
 
 if ! command -v node >/dev/null 2>&1; then
     echo "[FEHLER] Node.js wurde nicht gefunden."
-    echo "Bitte installiere Node.js von https://nodejs.org/ (LTS-Version)"
-    echo "und starte dieses Fenster danach neu."
     echo ""
-    echo "Tipp: Falls Node.js ueber nvm oder Homebrew installiert ist,"
-    echo "bitte einmalig das Terminal oeffnen und 'node --version' pruefen."
+    echo "Node.js wird benoetigt und ist auf diesem Mac noch nicht installiert."
+    echo "Die Download-Seite wird jetzt automatisch geoeffnet:"
+    echo "  https://nodejs.org/  (bitte die LTS-Version installieren)"
+    echo ""
+    open "https://nodejs.org/" 2>/dev/null || true
+    echo "Nach der Installation dieses Fenster schliessen und"
+    echo "das CMS erneut per Doppelklick starten."
     echo ""
     read -r -p "Zum Beenden Enter druecken..." _
     exit 1
