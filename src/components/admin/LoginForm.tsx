@@ -52,6 +52,7 @@ function HuskyMascot({ coveringEyes }: { coveringEyes: boolean }) {
 
         {/* LEFT PAW - animates up to cover left eye */}
         <motion.g
+          style={{ transformOrigin: "57px 190px" }}
           animate={
             coveringEyes
               ? { x: 22, y: -96, rotate: -18 }
@@ -76,6 +77,7 @@ function HuskyMascot({ coveringEyes }: { coveringEyes: boolean }) {
 
         {/* RIGHT PAW - animates up to cover right eye */}
         <motion.g
+          style={{ transformOrigin: "149px 190px" }}
           animate={
             coveringEyes
               ? { x: -22, y: -96, rotate: 18 }
