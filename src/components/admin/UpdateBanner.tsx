@@ -2,7 +2,13 @@
 
 import { useEffect, useState } from "react";
 
-type UpdateStatus = "unknown" | "checking" | "up-to-date" | "installing-dependencies" | "updated";
+type UpdateStatus =
+  | "unknown"
+  | "checking"
+  | "up-to-date"
+  | "installing-dependencies"
+  | "updated"
+  | "restarting";
 
 interface StatusResponse {
   status: UpdateStatus;
@@ -12,25 +18,12 @@ interface StatusResponse {
 const POLL_MS = 20_000;
 const SEEN_UPDATE_KEY = "cms-last-seen-update";
 
-// Zeigt der Redaktion einen Hinweis, waehrend scripts/cms-supervisor.mjs im
-// Hintergrund ein gefundenes Update herunterlaedt. Der laufende Server wird
-// dabei bewusst NICHT live neu gestartet (das wuerde mitten in der Arbeit die
-// Sitzung unterbrechen) - der neue Code wird erst beim naechsten Start des
-// CMS aktiv. Ohne laufenden Supervisor (Status "unknown") wird nichts
-// angezeigt.
 export default function UpdateBanner() {
   const [status, setStatus] = useState<StatusResponse | null>(null);
+  const [restarting, setRestarting] = useState(false);
 
-  // Der Supervisor prueft ohnehin von selbst periodisch im Hintergrund (rund
-  // eine Minute nach dem Start, siehe scripts/cms-supervisor.mjs). Dieser
-  // Aufruf hier ist nur eine Abkuerzung: er loest einen sofortigen Check aus,
-  // sobald jemand eingeloggt im Panel ankommt, statt auf die naechste
-  // automatische Runde zu warten.
   useEffect(() => {
-    fetch("/api/admin/trigger-update-check", { method: "POST" }).catch(() => {
-      // Kein laufender Supervisor oder Netzwerkproblem - dann bleibt es
-      // einfach beim manuellen/spaeteren Start, kein Fehlerfall.
-    });
+    fetch("/api/admin/trigger-update-check", { method: "POST" }).catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -45,7 +38,7 @@ export default function UpdateBanner() {
           if (!cancelled) setStatus(data);
         }
       } catch {
-        // Netzwerkproblem - einfach beim naechsten Poll weiter versuchen.
+        // Netzwerkproblem - beim naechsten Poll weiter versuchen.
       } finally {
         if (!cancelled) timer = setTimeout(poll, POLL_MS);
       }
@@ -58,7 +51,45 @@ export default function UpdateBanner() {
     };
   }, []);
 
+  async function handleRestart() {
+    setRestarting(true);
+    try {
+      await fetch("/api/admin/trigger-restart", { method: "POST" });
+    } catch {
+      setRestarting(false);
+      return;
+    }
+    // Warte bis der Server wieder antwortet (max. 90s) - Next.js Dev-Server
+    // braucht nach SIGTERM + Neustart typisch 15-30s bis er HTTP serviert.
+    // Ein fixer Timeout wuerde die Seite laden, bevor der Server bereit ist.
+    for (let i = 0; i < 90; i++) {
+      await new Promise((r) => setTimeout(r, 1000));
+      try {
+        const res = await fetch("/api/admin/update-status", {
+          cache: "no-store",
+          signal: AbortSignal.timeout(2000),
+        });
+        if (res.ok) {
+          window.location.reload();
+          return;
+        }
+      } catch {
+        // Server noch nicht bereit - weiter warten.
+      }
+    }
+    // Timeout abgelaufen, trotzdem versuchen.
+    window.location.reload();
+  }
+
   if (!status) return null;
+
+  if (status.status === "restarting" || restarting) {
+    return (
+      <div className="border-b border-blue-500/30 bg-blue-500/10 px-4 py-2.5 text-center text-sm text-blue-400 sm:px-6">
+        CMS wird neu gestartet, einen Moment bitte…
+      </div>
+    );
+  }
 
   if (status.status === "installing-dependencies") {
     return (
@@ -69,17 +100,24 @@ export default function UpdateBanner() {
   }
 
   if (status.status === "updated" && status.appliedAt) {
-    const alreadySeen = typeof window !== "undefined" && localStorage.getItem(SEEN_UPDATE_KEY) === status.appliedAt;
+    const alreadySeen =
+      typeof window !== "undefined" && localStorage.getItem(SEEN_UPDATE_KEY) === status.appliedAt;
     if (alreadySeen) return null;
     try {
       localStorage.setItem(SEEN_UPDATE_KEY, status.appliedAt);
     } catch {
-      // localStorage ggf. nicht verfuegbar - Hinweis wird dann bei jedem
-      // Laden kurz erneut angezeigt, kein Problem.
+      // localStorage nicht verfuegbar - kein Problem.
     }
     return (
-      <div className="border-b border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-center text-sm text-emerald-400 sm:px-6">
-        Ein Update wurde heruntergeladen und wird automatisch aktiv, sobald das CMS das nächste Mal gestartet wird.
+      <div className="flex flex-wrap items-center justify-center gap-3 border-b border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-sm text-emerald-400 sm:px-6">
+        <span>Ein Update wurde installiert.</span>
+        <button
+          onClick={handleRestart}
+          disabled={restarting}
+          className="rounded bg-emerald-500/20 px-3 py-1 font-medium hover:bg-emerald-500/30 disabled:opacity-50"
+        >
+          Jetzt neu starten
+        </button>
       </div>
     );
   }

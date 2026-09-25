@@ -5,6 +5,14 @@
 
 cd "$(dirname "$0")"
 
+# Quarantine-Attribut einmalig vom gesamten Projektordner entfernen.
+# Dadurch laesst sich E-Motion CMS.app danach per Doppelklick starten,
+# ohne dass macOS den Fehler "App ist beschaedigt" zeigt - da das .app-
+# Bundle selbst durch die Quarantine blockiert wird und sich nicht selbst
+# heilen kann, ist dieser .command-Startpfad (einmalig Rechtsklick ->
+# Oeffnen oder Doppelklick) der einzige Ort, wo das sicher geht.
+xattr -dr com.apple.quarantine "$(cd "$(dirname "$0")" && pwd)" 2>/dev/null || true
+
 # App-Translocation-Erkennung (#262): macOS verschiebt Apps aus dem
 # Downloads-Ordner oder nicht signierten DMGs in einen versteckten
 # /private/var/folders/.../AppTranslocation-Pfad. Der Ordner ist
@@ -47,11 +55,14 @@ echo ""
 
 if ! command -v node >/dev/null 2>&1; then
     echo "[FEHLER] Node.js wurde nicht gefunden."
-    echo "Bitte installiere Node.js von https://nodejs.org/ (LTS-Version)"
-    echo "und starte dieses Fenster danach neu."
     echo ""
-    echo "Tipp: Falls Node.js ueber nvm oder Homebrew installiert ist,"
-    echo "bitte einmalig das Terminal oeffnen und 'node --version' pruefen."
+    echo "Node.js wird benoetigt und ist auf diesem Mac noch nicht installiert."
+    echo "Die Download-Seite wird jetzt automatisch geoeffnet:"
+    echo "  https://nodejs.org/  (bitte die LTS-Version installieren)"
+    echo ""
+    open "https://nodejs.org/" 2>/dev/null || true
+    echo "Nach der Installation dieses Fenster schliessen und"
+    echo "das CMS erneut per Doppelklick starten."
     echo ""
     read -r -p "Zum Beenden Enter druecken..." _
     exit 1

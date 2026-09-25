@@ -129,30 +129,35 @@ Projekteinstellungen des Hosting-Anbieters):
 
 ### Schritt-für-Schritt-Anleitung
 
-1. **Ordner aus Downloads verschieben** — Vor dem ersten Start den
-   entpackten Ordner aus `~/Downloads` heraus bewegen, z. B. auf den
-   Schreibtisch oder nach `~/Programme`. macOS sperrt Apps, die direkt
-   aus dem Download-Ordner gestartet werden (Gatekeeper „App Translocation").
+1. **ZIP herunterladen & entpacken** — Den heruntergeladenen Ordner aus
+   `~/Downloads` auf den **Schreibtisch** oder nach `~/Programme` verschieben
+   (nicht direkt aus Downloads starten — macOS blockiert das).
 
-2. **App starten** — Doppelklick auf `E-Motion CMS.app` oder auf
-   `CMS-Start_macos.command`.
+2. **App starten** — Doppelklick auf **`CMS-Start_macos.command`**
+   (beim ersten Mal: Rechtsklick → „Öffnen" → im Dialog „Öffnen" klicken —
+   einmalige macOS-Sicherheitsnachfrage für Dateien aus dem Internet).
 
-3. **„App ist beschädigt"-Fehler (Apple Silicon)** — Einmalig im Terminal:
-   ```bash
-   xattr -cr "E-Motion CMS.app"
-   ```
-   Danach die App erneut starten.
+   Das wars. Die App erkennt automatisch, was fehlt:
+   - **Node.js fehlt?** → Browser öffnet sich automatisch auf nodejs.org
+     (LTS installieren, dann App erneut starten).
+   - **Erste Einrichtung** → Terminal-Fenster fragt einmalig nach
+     Benutzername und Passwort.
+   - Nach dem ersten Start per `CMS-Start_macos.command` lässt sich auch
+     **`E-Motion CMS.app`** per Doppelklick öffnen (der erste Start entfernt
+     die macOS-Quarantine, die sonst „App ist beschädigt" zeigen würde).
 
-4. **Skripte nicht ausführbar** — Falls `.command`-Dateien beim Doppelklick
-   nicht starten:
-   ```bash
-   chmod +x CMS-Start_macos.command CMS-Start.command
-   ```
+3. **Updates** — Laufen vollständig automatisch im Hintergrund. Nach einem
+   Update erscheint im Admin-Panel oben ein grüner Hinweis mit dem Button
+   **„Jetzt neu starten"** — einmal klicken, fertig. Kein Deinstallieren,
+   kein erneutes Herunterladen.
 
-5. **Node.js nicht gefunden** — Das Startskript sucht automatisch nach nvm
-   (`~/.nvm`) und Homebrew (`/opt/homebrew/bin`). Falls Node.js trotzdem
-   nicht erkannt wird: im Terminal `node --version` prüfen, dann ggf.
-   Node.js von https://nodejs.org neu installieren (LTS-Version).
+#### Problemlösung (nur falls nötig)
+
+| Problem | Lösung |
+| :-- | :-- |
+| `.command`-Datei startet nicht | Rechtsklick → „Öffnen" statt Doppelklick |
+| Node.js nach Installation immer noch nicht erkannt | Terminal öffnen → `node --version` prüfen → Mac neu starten |
+| App Translocation (Ordner liegt noch in Downloads) | Ordner auf Schreibtisch verschieben, App erneut starten |
 
 ---
 

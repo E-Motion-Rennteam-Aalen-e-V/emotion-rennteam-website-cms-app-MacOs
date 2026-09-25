@@ -42,6 +42,14 @@ if [[ "$DIR" == *AppTranslocation* ]] || [ ! -f "$DIR/CMS-Start.command" ] || [ 
     exit 1
 fi
 
+# Quarantine-Attribut entfernen: macOS setzt bei heruntergeladenen Dateien
+# das com.apple.quarantine-Xattr und zeigt beim Start dann den Fehler
+# "App ist beschaedigt und kann nicht geoeffnet werden". Das betrifft die
+# .app selbst und alle daneben liegenden .command-Skripte. Einmalig und
+# lautlos entfernen - schlaegt es fehl (kein xattr auf dem System oder
+# keine Rechte), laeuft alles trotzdem weiter.
+xattr -dr com.apple.quarantine "$DIR" 2>/dev/null || true
+
 needs_terminal=false
 command -v node >/dev/null 2>&1 || needs_terminal=true
 command -v npm >/dev/null 2>&1 || needs_terminal=true
